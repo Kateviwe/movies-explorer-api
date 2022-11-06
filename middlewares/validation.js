@@ -34,8 +34,25 @@ const defineMovieIdValidation = celebrate({
   }),
 });
 
+const postNewUserValidation = celebrate({
+  body: Joi.object().keys({
+    name: Joi.string().min(2).max(30).required(),
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
+  }),
+});
+
+const loginValidation = celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
+  }),
+});
+
 module.exports = {
   patchUserInfoValidation,
   postNewMovieValidation,
   defineMovieIdValidation,
+  postNewUserValidation,
+  loginValidation,
 };

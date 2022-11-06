@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-// Импортируем модуль для хеширования пароля перед сохранением в базу данных
-// const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 
-// const { NotAuth } = require('../errors/not-auth-error');
+const { NotAuth } = require('../errors/not-auth-error');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -38,30 +37,31 @@ const userSchema = new mongoose.Schema({
 
 // Добавим собственный метод проверки почты и пароля с помощью свойства statics
 // findUserByCredentials не должна быть стрелочной для требуемого использования this
-// userSchema.statics.findUserByCredentials = function findUserByCredentials(email, password) {
-//   // Если почта и пароль совпадают с теми, что есть в базе, пользователь входит на сайт
-//   // Иначе — получает сообщение об ошибке
-//   // В случае аутентификации хеш пароля нужен => добавим метод select со строкой '+password'
-//   // this - модель User
-//   return this.findOne({ email }).select('+password')
-//     .then((user) => {
-//       // Если пользователь с таким email не нашелся
-//       if (!user) {
-//         return Promise.reject(new NotAuth('Ошибка аутентификации'));
-//       }
-//       // Если нашелся: захешируем пароль и сравним с хешем в базе
-//       // password - пароль, который ввел пользователь
-//       // user.password - пароль, который 'закреплен' за введенным email в базе данных
-//       return bcrypt.compare(password, user.password)
-//       // bcrypt.compare работает асинхронно => результат обработаем в след. then
-//         .then((arePasswordsMatched) => {
-//           if (!arePasswordsMatched) {
-//             return Promise.reject(new NotAuth('Ошибка аутентификации'));
-//           }
-//           return user;
-//         });
-//     });
-// };
+userSchema.statics.findUserByCredentials = function findUserByCredentials(email, password) {
+  // Если почта и пароль совпадают с теми, что есть в базе, пользователь входит на сайт
+  // Иначе — получает сообщение об ошибке
+  // В случае аутентификации нужен хеш пароля => добавим метод select со строкой '+password'
+  // this - модель User
+  return this.findOne({ email }).select('+password')
+    .then((user) => {
+      // Если пользователь с таким email не нашелся
+      if (!user) {
+        return Promise.reject(new NotAuth('Ошибка аутентификации'));
+      }
+      // Если нашелся: захешируем пароль и сравним с хешем в базе
+      // password - пароль, который ввел пользователь
+      // user.password - пароль, который 'закреплен' за введенным email в базе данных
+      return bcrypt.compare(password, user.password)
+      // bcrypt.compare работает асинхронно => результат обработаем в след. then
+      // Делаем then в then, чтобы user был доступен в нашей области видимости
+        .then((arePasswordsMatched) => {
+          if (!arePasswordsMatched) {
+            return Promise.reject(new NotAuth('Ошибка аутентификации'));
+          }
+          return user;
+        });
+    });
+};
 
 // Создание модели по схеме, экспорт
 module.exports = mongoose.model('user', userSchema);
