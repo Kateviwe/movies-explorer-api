@@ -1,4 +1,5 @@
-const ERROR_CODE_USER_DUPLICATION = 409;
+// 409
+const { ERROR_CODE_USER_DUPLICATION } = require('../utils/constants');
 
 class UserDuplicationError extends Error {
   constructor(message) {

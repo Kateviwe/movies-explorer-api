@@ -5,6 +5,7 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
 const { NotAuth } = require('../errors/not-auth-error');
+const { NOT_AUTH } = require('../utils/constants');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -21,7 +22,7 @@ module.exports = (req, res, next) => {
   try {
     payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
   } catch (err) {
-    next(new NotAuth('Ошибка аутентификации'));
+    next(new NotAuth(NOT_AUTH));
   }
   req.user = payload;
   // Пропускаем запрос дальше

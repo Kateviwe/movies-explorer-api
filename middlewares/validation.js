@@ -19,7 +19,7 @@ const postNewMovieValidation = celebrate({
     year: Joi.string().required(),
     description: Joi.string().required(),
     image: Joi.string().required().regex(RegExp(regExpUrl)),
-    trailerLink: Joi.string().required().regex(RegExp(regExpUrl)),
+    trailer: Joi.string().required().regex(RegExp(regExpUrl)),
     thumbnail: Joi.string().required().regex(RegExp(regExpUrl)),
     movieId: Joi.number().required(),
     nameRU: Joi.string().required(),

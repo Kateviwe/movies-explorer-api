@@ -1,4 +1,5 @@
-const ERROR_CODE_INCORRECT_INPUT = 400;
+// 400
+const { ERROR_CODE_INCORRECT_INPUT } = require('../utils/constants');
 
 class IncorrectInputError extends Error {
   constructor(message) {

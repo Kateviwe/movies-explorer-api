@@ -1,5 +1,5 @@
-// Создание кастомных ошибок
-const ERROR_CODE_NO_PERMISSION = 403;
+// 403
+const { ERROR_CODE_NO_PERMISSION } = require('../utils/constants');
 
 class NoPermissionError extends Error {
   constructor(message) {

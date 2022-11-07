@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 
+const {
+  NOT_VALID_IMAGE_MOVIES,
+  NOT_VALID_TRAILER_MOVIES,
+  NOT_VALID_THUMBNAIL_MOVIES,
+} = require('../utils/constants');
+
 const movieSchema = new mongoose.Schema({
   country: {
     type: String,
@@ -29,17 +35,17 @@ const movieSchema = new mongoose.Schema({
       validator(meaning) {
         return validator.isURL(meaning);
       },
-      message: 'Ссылка на постер к фильму (image) невалидна',
+      message: NOT_VALID_IMAGE_MOVIES,
     },
   },
-  trailerLink: {
+  trailer: {
     type: String,
     required: true,
     validate: {
       validator(meaning) {
         return validator.isURL(meaning);
       },
-      message: 'Ссылка на трейлер фильма (trailerLink) невалидна',
+      message: NOT_VALID_TRAILER_MOVIES,
     },
   },
   thumbnail: {
@@ -49,7 +55,7 @@ const movieSchema = new mongoose.Schema({
       validator(meaning) {
         return validator.isURL(meaning);
       },
-      message: 'Ссылка на миниатюрное изображение постера к фильму (thumbnail) невалидна',
+      message: NOT_VALID_THUMBNAIL_MOVIES,
     },
   },
   owner: {

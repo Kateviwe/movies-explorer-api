@@ -3,6 +3,10 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
 const { NotAuth } = require('../errors/not-auth-error');
+const {
+  NOT_VALID_EMAIL_USERS,
+  NOT_AUTH,
+} = require('../utils/constants');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -24,7 +28,7 @@ const userSchema = new mongoose.Schema({
         return validator.isEmail(meaning);
       },
       // Сообщение об ошибке срабатывает, если функция валидации возвращает false
-      message: 'email невалиден',
+      message: NOT_VALID_EMAIL_USERS,
     },
   },
   password: {
@@ -46,7 +50,7 @@ userSchema.statics.findUserByCredentials = function findUserByCredentials(email,
     .then((user) => {
       // Если пользователь с таким email не нашелся
       if (!user) {
-        return Promise.reject(new NotAuth('Ошибка аутентификации'));
+        return Promise.reject(new NotAuth(NOT_AUTH));
       }
       // Если нашелся: захешируем пароль и сравним с хешем в базе
       // password - пароль, который ввел пользователь
@@ -56,7 +60,7 @@ userSchema.statics.findUserByCredentials = function findUserByCredentials(email,
       // Делаем then в then, чтобы user был доступен в нашей области видимости
         .then((arePasswordsMatched) => {
           if (!arePasswordsMatched) {
-            return Promise.reject(new NotAuth('Ошибка аутентификации'));
+            return Promise.reject(new NotAuth(NOT_AUTH));
           }
           return user;
         });

@@ -1,4 +1,5 @@
-const ERROR_CODE_NOT_AUTH = 401;
+// 401
+const { ERROR_CODE_NOT_AUTH } = require('../utils/constants');
 
 class NotAuth extends Error {
   constructor(message) {

@@ -20,6 +20,8 @@ const usersRouter = require('./users');
 const moviesRouter = require('./movies');
 const { NotFoundError } = require('../errors/not-found-error');
 
+const { NOT_FOUND_ERROR } = require('../utils/constants');
+
 // Роуты без авторизации
 router.post('/signup', postNewUserValidation, postNewUser);
 router.post('/signin', loginValidation, login);
@@ -33,6 +35,6 @@ router.use('/movies', moviesRouter);
 
 // Обработка несуществующих роутов
 // 404
-router.use('*', (req, res, next) => next(new NotFoundError('Запрашиваемый ресурс не найден')));
+router.use('*', (req, res, next) => next(new NotFoundError(NOT_FOUND_ERROR)));
 
 module.exports = router;

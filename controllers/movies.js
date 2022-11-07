@@ -5,6 +5,13 @@ const { NotFoundError } = require('../errors/not-found-error');
 const { BadRequestError } = require('../errors/bad-request');
 const { NoPermissionError } = require('../errors/no-permission-error');
 
+const {
+  INCORRECT_INPUT_ERROR,
+  NOT_FOUND_ERROR_MOVIES,
+  NO_PERMISSION_ERROR_MOVIES,
+  BAD_REQUEST_ERROR_MOVIES,
+} = require('../utils/constants');
+
 // Импортируем модель 'movie'
 const Movie = require('../models/movie');
 
@@ -54,7 +61,7 @@ module.exports.postNewMovie = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         // 400
-        next(new IncorrectInputError(`Некорректные входные данные. ${err}`));
+        next(new IncorrectInputError(`${INCORRECT_INPUT_ERROR}. ${err}`));
       } else {
         next(err);
       }
@@ -64,7 +71,7 @@ module.exports.postNewMovie = (req, res, next) => {
 module.exports.deleteNecessaryMovie = (req, res, next) => {
   Movie.findById(req.params.movieId)
     // orFail только кидает ошибку - не обрабатывает
-    .orFail(new NotFoundError('Запрашиваемый фильм не найден'))
+    .orFail(new NotFoundError(NOT_FOUND_ERROR_MOVIES))
     .then((movie) => {
       if (JSON.stringify(movie.owner) === JSON.stringify(req.user._id)) {
         // Асинхронный метод (ждем завершения операции прежде,
@@ -73,12 +80,12 @@ module.exports.deleteNecessaryMovie = (req, res, next) => {
           .then(() => res.send({ message: 'Фильм удален' }));
       }
       // 403
-      next(new NoPermissionError('Удаление невозможно: это не ваш фильм'));
+      next(new NoPermissionError(NO_PERMISSION_ERROR_MOVIES));
     })
     .catch((err) => {
       if (err.name === 'CastError') {
         // 400
-        next(new BadRequestError('Некорректный id фильма'));
+        next(new BadRequestError(BAD_REQUEST_ERROR_MOVIES));
       } else {
         next(err);
       }

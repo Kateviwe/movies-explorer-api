@@ -11,17 +11,25 @@ const { BadRequestError } = require('../errors/bad-request');
 const { UserDuplicationError } = require('../errors/user-duplication-error');
 const { NotAuth } = require('../errors/not-auth-error');
 
+const {
+  NOT_FOUND_ERROR_USERS,
+  BAD_REQUEST_ERROR_USERS,
+  INCORRECT_INPUT_ERROR,
+  USER_DUPLICATION_ERROR,
+  NOT_AUTH,
+} = require('../utils/constants');
+
 // Импортируем модель 'user'
 const User = require('../models/user');
 
 module.exports.getUserInfo = (req, res, next) => {
   User.findById(req.user._id)
-    .orFail(new NotFoundError('Запрашиваемый пользователь не найден'))
+    .orFail(new NotFoundError(NOT_FOUND_ERROR_USERS))
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'CastError') {
         // 400
-        next(new BadRequestError('Некорректный id пользователя'));
+        next(new BadRequestError(BAD_REQUEST_ERROR_USERS));
       } else {
         next(err);
       }
@@ -36,14 +44,14 @@ module.exports.patchUserInfo = (req, res, next) => {
     name,
     email,
   }, { new: true, runValidators: true })
-    .orFail(new NotFoundError('Запрашиваемый пользователь не найден'))
+    .orFail(new NotFoundError(NOT_FOUND_ERROR_USERS))
   // Особенность mongoose: при сохранении данных (POST) валидация происходит автоматически, а
   // при обновлении (PATCH) для валидации надо добавлять вручную опцию: runValidators: true
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         // 400
-        next(new IncorrectInputError(`Некорректные входные данные. ${err}`));
+        next(new IncorrectInputError(`${INCORRECT_INPUT_ERROR}. ${err}`));
       } else {
         next(err);
       }
@@ -73,12 +81,12 @@ module.exports.postNewUser = (req, res, next) => {
     .catch((err) => {
       if (err.code === 11000) {
         // 409
-        next(new UserDuplicationError('Пользователь с таким email уже существует'));
+        next(new UserDuplicationError(USER_DUPLICATION_ERROR));
       } else if (err.name === 'ValidationError') {
       // ValidationError - ошибка валидации в mongoose
       // Валидация делается автоматически по схеме в папке models
         // 400
-        next(new IncorrectInputError(`Некорректные входные данные. ${err}`));
+        next(new IncorrectInputError(`${INCORRECT_INPUT_ERROR}. ${err}`));
       } else {
         next(err);
       }
@@ -115,7 +123,7 @@ module.exports.login = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'NotAuthorised') {
         // 401
-        next(new NotAuth('Ошибка аутентификации'));
+        next(new NotAuth(NOT_AUTH));
       } else {
         next(err);
       }
