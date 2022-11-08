@@ -56,6 +56,7 @@ module.exports.postNewMovie = (req, res, next) => {
   })
     // .then((doc) => doc.populate(['owner', 'likes']))
     .then((movie) => {
+      console.dir(movie);
       res.send(movie);
     })
     .catch((err) => {
