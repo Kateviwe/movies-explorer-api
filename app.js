@@ -60,8 +60,5 @@ app.use(errors());
 // Централизованный обработчик ошибок
 // Перехватит все остальные ошибки
 app.use(errorHandler);
-console.log(NODE_ENV);
-console.log(PORT);
-console.log(DATABASE_URL);
 
 app.listen(PORT);
