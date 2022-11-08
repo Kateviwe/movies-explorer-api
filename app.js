@@ -7,13 +7,13 @@ const bodyParser = require('body-parser');
 // Подключим модуль cookie-parser для извлечения данных из заголовка Cookie (чтение куки на сервере)
 // и преобразования строки в объект
 const cookieParser = require('cookie-parser');
-
 // Подключим модуль Helmet для автоматической простановки заголовков безопасности
 const helmet = require('helmet');
-const limiter = require('./utils/rateLimit');
 // Подключим обработчик ошибок celebrate
 // Чтобы отправить клиенту ошибку, в celebrate есть специальный мидлвэр — errors
 const { errors } = require('celebrate');
+
+const limiter = require('./utils/rateLimit');
 
 // Импорт роутеров
 const allRoutes = require('./routes/index');

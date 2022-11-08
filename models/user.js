@@ -44,7 +44,10 @@ const userSchema = new mongoose.Schema({
 userSchema.statics.findUserByCredentials = function findUserByCredentials(email, password) {
   // Если почта и пароль совпадают с теми, что есть в базе, пользователь входит на сайт
   // Иначе — получает сообщение об ошибке
+
   // В случае аутентификации нужен хеш пароля => добавим метод select со строкой '+password'
+  // Так как поле password не возвращается => надо вернуть значение поля password,
+  // чтобы сравнить введенный пароль и пароль, который в базе находится
   // this - модель User
   return this.findOne({ email }).select('+password')
     .then((user) => {
