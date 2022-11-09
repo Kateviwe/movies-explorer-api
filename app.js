@@ -37,7 +37,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // Простановка заголовков безопасности
 app.use(helmet());
-app.use(limiter);
 // Подключим, и куки станут доступны в объекте req.cookies.jwt
 app.use(cookieParser());
 
@@ -46,6 +45,8 @@ mongoose.connect(NODE_ENV === 'production' ? DATABASE_URL : 'mongodb://localhost
 
 // Подключаем логгер запросов (обязательно до всех обработчиков роутов)
 app.use(requestLogger);
+
+app.use(limiter);
 
 // Подключаем файл с логикой маршрутизации
 app.use(allRoutes);

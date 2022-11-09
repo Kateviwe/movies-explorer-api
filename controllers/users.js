@@ -49,7 +49,10 @@ module.exports.patchUserInfo = (req, res, next) => {
   // при обновлении (PATCH) для валидации надо добавлять вручную опцию: runValidators: true
     .then((user) => res.send(user))
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.code === 11000) {
+        // 409
+        next(new UserDuplicationError(USER_DUPLICATION_ERROR));
+      } else if (err.name === 'ValidationError') {
         // 400
         next(new IncorrectInputError(`${INCORRECT_INPUT_ERROR}. ${err}`));
       } else {
