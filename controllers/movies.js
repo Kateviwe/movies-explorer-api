@@ -10,7 +10,7 @@ const {
   NOT_FOUND_ERROR_MOVIES,
   NO_PERMISSION_ERROR_MOVIES,
   BAD_REQUEST_ERROR_MOVIES,
-  MOVIE_REMOVE_MESSAGE,
+  // MOVIE_REMOVE_MESSAGE,
 } = require('../utils/constants');
 
 // Импортируем модель 'movie'
@@ -52,7 +52,7 @@ module.exports.deleteNecessaryMovie = (req, res, next) => {
         // Асинхронный метод (ждем завершения операции прежде,
         // чем отправлять ответ) => используем then
         movie.remove()
-          .then(() => res.send({ message: MOVIE_REMOVE_MESSAGE }));
+          .then(() => res.send({ message: 'Фильм удален' }));
       }
       // 403
       next(new NoPermissionError(NO_PERMISSION_ERROR_MOVIES));

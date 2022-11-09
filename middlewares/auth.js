@@ -23,7 +23,6 @@ module.exports = (req, res, next) => {
     payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
   } catch (err) {
     next(new NotAuth(NOT_AUTH));
-    return;
   }
   req.user = payload;
   // Пропускаем запрос дальше
