@@ -14,6 +14,7 @@ const helmet = require('helmet');
 const { errors } = require('celebrate');
 
 const limiter = require('./utils/rateLimit');
+const devDatabaseUrl = require('./utils/config');
 
 // Импорт роутеров
 const allRoutes = require('./routes');
@@ -41,7 +42,7 @@ app.use(helmet());
 app.use(cookieParser());
 
 // Подключаемся к серверу mongo
-mongoose.connect(NODE_ENV === 'production' ? DATABASE_URL : 'mongodb://localhost:27017/moviesdb');
+mongoose.connect(NODE_ENV === 'production' ? DATABASE_URL : devDatabaseUrl);
 
 // Подключаем логгер запросов (обязательно до всех обработчиков роутов)
 app.use(requestLogger);

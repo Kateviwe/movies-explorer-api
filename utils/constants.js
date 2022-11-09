@@ -12,6 +12,8 @@ const INCORRECT_INPUT_ERROR = 'Некорректные входные данн�
 const NOT_AUTH = 'Ошибка аутентификации';
 const COMMON_ERROR = 'Произошла ошибка';
 const NOT_FOUND_ERROR = 'Запрашиваемый ресурс не найден';
+const COOKIES_DELETE_MESSAGE = 'Вы вышли из профиля';
+const MOVIE_REMOVE_MESSAGE = 'Фильм удален';
 
 // Сообщения ошибок /controllers/movies
 const NOT_FOUND_ERROR_MOVIES = 'Запрашиваемый фильм не найден';
@@ -53,4 +55,6 @@ module.exports = {
   NOT_VALID_THUMBNAIL_MOVIES,
   NOT_VALID_EMAIL_USERS,
   NOT_FOUND_ERROR,
+  COOKIES_DELETE_MESSAGE,
+  MOVIE_REMOVE_MESSAGE,
 };

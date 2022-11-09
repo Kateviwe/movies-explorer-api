@@ -9,14 +9,13 @@ const { IncorrectInputError } = require('../errors/incorrect-input-error');
 const { NotFoundError } = require('../errors/not-found-error');
 const { BadRequestError } = require('../errors/bad-request');
 const { UserDuplicationError } = require('../errors/user-duplication-error');
-const { NotAuth } = require('../errors/not-auth-error');
 
 const {
   NOT_FOUND_ERROR_USERS,
   BAD_REQUEST_ERROR_USERS,
   INCORRECT_INPUT_ERROR,
   USER_DUPLICATION_ERROR,
-  NOT_AUTH,
+  COOKIES_DELETE_MESSAGE,
 } = require('../utils/constants');
 
 // Импортируем модель 'user'
@@ -129,5 +128,5 @@ module.exports.login = (req, res, next) => {
 };
 
 module.exports.getCookiesDelete = (req, res) => {
-  res.clearCookie('jwt').send({ message: 'Вы вышли из профиля' });
+  res.clearCookie('jwt').send({ message: COOKIES_DELETE_MESSAGE });
 };
