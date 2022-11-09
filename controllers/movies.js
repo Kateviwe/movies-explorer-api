@@ -16,7 +16,8 @@ const {
 const Movie = require('../models/movie');
 
 module.exports.getAllSaveMovies = (req, res, next) => {
-  Movie.find({})
+  const owner = req.user._id;
+  Movie.find({ owner })
     // .populate(['owner', 'likes'])
     .then((movies) => res.send(movies))
     // catch(next) аналогична catch(err => next(err))
@@ -76,7 +77,7 @@ module.exports.deleteNecessaryMovie = (req, res, next) => {
       if (JSON.stringify(movie.owner) === JSON.stringify(req.user._id)) {
         // Асинхронный метод (ждем завершения операции прежде,
         // чем отправлять ответ) => используем then
-        return movie.remove()
+        movie.remove()
           .then(() => res.send({ message: 'Фильм удален' }));
       }
       // 403

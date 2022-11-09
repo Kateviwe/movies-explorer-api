@@ -35,7 +35,7 @@ module.exports = (req, res, next) => {
     // который передает браузер вместе с запросом
     res.header('Access-Control-Allow-Headers', requestHeaders);
     // Завершаем обработку запроса и возвращаем результат клиенту
-    return res.end();
+    res.end();
   }
   // Браузер сам заблокирует запрос, поскольку заголовок не был передан
   next();

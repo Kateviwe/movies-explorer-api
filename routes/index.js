@@ -29,7 +29,7 @@ router.post('/signin', loginValidation, login);
 // Роуты с авторизацией
 router.use(auth);
 // Запрос на api с '/deletecookies'
-router.post('/signout', getCookiesDelete);
+router.get('/signout', getCookiesDelete);
 router.use('/users', usersRouter);
 router.use('/movies', moviesRouter);
 
