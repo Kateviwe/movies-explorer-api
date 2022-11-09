@@ -25,36 +25,9 @@ module.exports.getAllSaveMovies = (req, res, next) => {
 };
 
 module.exports.postNewMovie = (req, res, next) => {
-  // Получим из объекта запроса данные о фильме
-  const {
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailer,
-    nameRU,
-    nameEN,
-    thumbnail,
-    movieId,
-  } = req.body;
   const owner = req.user._id;
 
-  Movie.create({
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailer,
-    nameRU,
-    nameEN,
-    thumbnail,
-    movieId,
-    owner,
-  })
+  Movie.create({ ...req.body, owner })
     // .then((doc) => doc.populate(['owner', 'likes']))
     .then((movie) => {
       res.send(movie);

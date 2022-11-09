@@ -16,7 +16,7 @@ const { errors } = require('celebrate');
 const limiter = require('./utils/rateLimit');
 
 // Импорт роутеров
-const allRoutes = require('./routes/index');
+const allRoutes = require('./routes');
 
 const errorHandler = require('./middlewares/errorHandler');
 // Импортируем логгеры (сбор логов при запросах к серверу и ошибках)

@@ -124,12 +124,7 @@ module.exports.login = (req, res, next) => {
       res.send({ email });
     })
     .catch((err) => {
-      if (err.name === 'NotAuthorised') {
-        // 401
-        next(new NotAuth(NOT_AUTH));
-      } else {
-        next(err);
-      }
+      next(err);
     });
 };
 
