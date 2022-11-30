@@ -4,8 +4,8 @@
 const allowedCors = [
   'http://movies.frontend.kateviwe.nomoredomains.icu',
   'https://movies.frontend.kateviwe.nomoredomains.icu',
-  'http://localhost:7777',
-  'http://127.0.0.1:7777',
+  'http://localhost:3000',
+  'https://localhost:3000',
 ];
 
 module.exports = (req, res, next) => {
