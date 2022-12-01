@@ -120,7 +120,7 @@ module.exports.login = (req, res, next) => {
         sameSite: true,
       });
 
-      res.send({ email });
+      res.send({ token });
     })
     .catch((err) => {
       next(err);

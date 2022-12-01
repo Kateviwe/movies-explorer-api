@@ -24,7 +24,7 @@ const errorHandler = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('./middlewares/cors');
 
-const { PORT = 3000, NODE_ENV, DATABASE_URL } = process.env;
+const { PORT = 5000, NODE_ENV, DATABASE_URL } = process.env;
 
 // Создадим приложение методом express()
 const app = express();
